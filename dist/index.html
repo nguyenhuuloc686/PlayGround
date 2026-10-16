@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NRO – Hiệu ứng hoa dưới chân nhân vật</title>
+<style>
+  :root{
+    --bg:#0f1220; --panel:#171a2e; --panel2:#1d2140; --text:#e8eaf6; --muted:#9aa3c7;
+    --accent:#ff5c8a; --accent2:#4fc3f7; --line:#2a2f52; --ok:#7cd992; --warn:#ffc46b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;line-height:1.55}
+  a{color:var(--accent2);text-decoration:none}
+  header{padding:48px 24px 28px;text-align:center;background:linear-gradient(180deg,#1a1030 0%,var(--bg) 100%);border-bottom:1px solid var(--line)}
+  h1{margin:0 0 8px;font-size:clamp(22px,4vw,34px);letter-spacing:.5px}
+  .sub{color:var(--muted);max-width:760px;margin:0 auto}
+  .badges{margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .badge{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:4px 14px;font-size:13px;color:var(--muted)}
+  .badge b{color:var(--accent)}
+  main{max-width:1080px;margin:0 auto;padding:24px}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 22px;margin:22px 0}
+  h2{margin:0 0 14px;font-size:20px;color:#fff;border-bottom:1px solid var(--line);padding-bottom:10px}
+  h3{margin:18px 0 8px;font-size:16px;color:var(--accent2)}
+  p{margin:8px 0}
+  .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .card img{width:100%;border-radius:8px;display:block;background:#111}
+  .card figcaption{font-size:13px;color:var(--muted);margin-top:8px}
+  .card figcaption b{color:var(--text)}
+  .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted);margin-right:6px}
+  .tag.g{color:var(--ok);border-color:var(--ok)}
+  .tag.o{color:var(--warn);border-color:var(--warn)}
+  pre{background:#0b0e1a;border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5;color:#d7e0ff}
+  code{font-family:"Cascadia Code",Consolas,Menlo,monospace}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+  th{background:var(--panel2);color:#fff}
+  td code{color:var(--accent2)}
+  ul{margin:8px 0;padding-left:22px}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+  .flow .step{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13px}
+  .flow .arr{color:var(--accent);font-weight:700}
+  .note{border-left:3px solid var(--warn);background:rgba(255,196,107,.08);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14px;color:#f5e9d0}
+  footer{color:var(--muted);text-align:center;padding:26px;font-size:13px;border-top:1px solid var(--line)}
+  @media (max-width:640px){ header{padding:34px 14px 20px} main{padding:14px} section{padding:16px 14px} }
+</style>
+</head>
+<body>
+<header>
+  <h1>🌸 Hiệu ứng hoa dưới chân nhân vật – NgỌc Rồng Online</h1>
+  <p class="sub">Phân tích source server NRO (By Mr Blue) + gói tài nguyên <b>effect_bong_hoa_hong</b> + video demo → tích hợp hiệu ứng hoa nở dưới chân nhân vật khi di chuyển, không spam, không ảnh hưởng logic game.</p>
+  <div class="badges">
+    <span class="badge">Build: <b>PASS</b> (560 file .java)</span>
+    <span class="badge">Effect: <b>369</b> hoa hồng · <b>370</b> hoa xanh</span>
+    <span class="badge">Message <b>113</b> (EffectMapService)</span>
+  </div>
+</header>
+<main>
+
+<section id="overview">
+  <h2>1. Kết quả phân tích tài nguyên</h2>
+  <p>Gói <code>effect_bong_hoa_hong.zip</code> chứa sprite cho <b>2 hiệu ứng</b> ở cả 4 độ phân giải (x1, x2, x3, x4) </p>
+  <table>
+    <tr><th>ID</th><th>Nội dung</th><th>Ảnh atlas (x1)</th><th>Frame</th><th>DataEffect</th></tr>
+    <tr><td><code>369</code></td><td>Bông <b>hoa hồng đỏ</b> nở dần rồi rơi cánh</td><td>164×164</td><td>13 khung (41×41)</td><td>DataEffect_369</td></tr>
+    <tr><td><code>370</code></td><td>Bông <b>hoa xanh</b> nở dần rồi rơi cánh</td><td>164×123</td><td>12 khung (41×41)</td><td>DataEffect_370</td></tr>
+  </table>
+  <div class="grid" style="margin-top:14px">
+    <figure class="card">
+      <img src="assets/sheet_369.png" alt="Sprite frame hiệu ứng 369">
+      <figcaption><b>Effect 369</b> – hoa hồng đỏ: nụ nở dần → hoa hé → cánh rơi (13 frame, sắp xếp 41px/grid).</figcaption>
+    </figure>
+    <figure class="card">
+      <img src="assets/sheet_370.png" alt="Sprite frame hiệu ứng 370">
+      <figcaption><b>Effect 370</b> – hoa xanh dương: nụ nở dần → hoa hé → cánh rơi (12 frame).</figcaption>
+    </figure>
+  </div>
+  <p>Trong gói còn có <code>17708.png</code> / <code>17709.png</code> (icon 22×22) – icon sự kiện vật phẩm, <b>không bắt buộc</b> cho hiệu ứng này; SQL <code>team2026</code> không có item template 17708/17709, nên không cần sửa SQL.</p>
+</section>
+
+<section id="demo">
+  <h2>2. Đối chiếu video demo</h2>
+  <p>Khi nhân vật di chuyển, hoa xuất hiện rải dọc đường đi,neo trong tọa độ bản đồ (không dính màn hình), mỗi bông tự nở rồi tàn dần. Video dùng <b>cả hai</b> hiệu ứng:</p>
+  <div class="grid">
+    <figure class="card">
+      <img src="assets/vid_f_0032.jpg" alt="Hoa xanh dọc đường đi">
+      <figcaption>Frame 8s: chuỗi <b>hoa xanh (370)</b> mọc sau nhân vật đang chạy — nhiều giai đoạn nở cùng lúc.</figcaption>
+    </figure>
+    <figure class="card">
+      <img src="assets/vid_f_0052.jpg" alt="Cánh hoa hồng rơi sau nhân vật">
+      <figcaption>Frame 13s: <b>cánh hoa hồng (369)</b> rơi sau nhân vật đi bộ.</figcaption>
+    </figure>
+    <figure class="card">
+      <img src="assets/crop_f12.png" alt="Cận cảnh 2 giai đoạn nở">
+      <figcaption>Cận cảnh: cùng lúc có nụ non và hoa đang nở → nhiều hiệu ứng live song song.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="source">
+  <h2>3. Kiến trúc source &amp; điểm chèn</h2>
+  <p><code>src.zip</code> là <b>source server</b> Java (client không được cung cấp). Cửa sổ duy nhất toàn bộ thao tác di chuyển đi qua là <code>PlayerService.playerMove()</code>: client gửi message <code>-7</code> (Controller) → server cập nhật tọa độ → broadcast <code>-7</code> cho người khác. Hiệu ứng bản đồ gửi qua <b>Message 113</b> của <code>EffectMapService</code> — client tự load <code>ImgEffect_{id}.png</code>+<code>DataEffect_{id}</code> theo độ phân giải.</p>
+  <div class="flow">
+    <span class="step">Client: msg -7 (di chuyển)</span><span class="arr">→</span>
+    <span class="step">Controller case -7</span><span class="arr">→</span>
+    <span class="step">PlayerService.playerMove()</span><span class="arr">→</span>
+    <span class="step">guard: realMove &amp;&amp; !largeMove</span><span class="arr">→</span>
+    <span class="step">EffectMapService.sendFlowerEffectOnMove()</span><span class="arr">→</span>
+    <span class="step">msg 113 → mọi người trong map</span>
+  </div>
+  <h3>Thiết kế chống spam &amp; an toàn</h3>
+  <ul>
+    <li><b>realMove</b>: so sánh tọa độ cũ mới — đứng yên, packet lặp lại → không tạo hoa.</li>
+    <li><b>largeMove &gt; 300px</b>: teleport / bùng packet khi lag → không tạo hoa.</li>
+    <li><b>FLOWER_EFFECT_SPAWN_DELAY = 500ms</b>/người: tối đa 2 hoa/giây, đúng nhịp video.</li>
+    <li>Chỉ áp dụng <code>player.isPl()</code> — boss, pet, bot di chuyển không sinh hoa.</li>
+    <li>Không sửa chiến đấu, kỹ năng, NPC, quái — chỉ chèn 1 lời gọi ở cuối playerMove.</li>
+  </ul>
+</section>
+
+<section id="code">
+  <h2>4. Code đã vá (3 file)</h2>
+
+  <h3>File 1 — <code>nro/models/player/Location.java</code> (cùng vuốt thời gian tạo hoa với từng nhân vật)</h3>
+  <pre><code>    public long lastTimeplayerMove;
+
+    public long lastTimeFlowerEffect;
+}</code></pre>
+
+  <h3>File 2 — <code>nro/models/services_func/EffectMapService.java</code> (hằng số cấu hình + 2 hàm mới)</h3>
+  <pre><code>    // ========== Hiệu ứng hoa dưới chân nhân vật khi di chuyển ==========
+    public static final boolean FLOWER_EFFECT_ENABLED = true;
+    public static final long FLOWER_EFFECT_SPAWN_DELAY = 500L;
+    public static final int FLOWER_EFFECT_LAYER = 3;
+    public static final int FLOWER_EFFECT_LOOP = 1;
+    public static final int FLOWER_EFFECT_DELAY = -1;
+    public static final int FLOWER_EFFECT_ID_ROSE = 369;
+    public static final int FLOWER_EFFECT_ID_BLUE = 370;
+    public static final int FLOWER_EFFECT_ROSE_RATIO = 50;
+    public static final int FLOWER_EFFECT_X_OFFSET = 20;
+    public static final int FLOWER_EFFECT_Y_OFFSET = 34;
+
+    public void sendFlowerEffectOnMove(Player player) {
+        if (!FLOWER_EFFECT_ENABLED || player == null || player.zone == null || !player.isPl()) {
+            return;
+        }
+        if (!Util.canDoWithTime(player.location.lastTimeFlowerEffect, FLOWER_EFFECT_SPAWN_DELAY)) {
+            return;
+        }
+        player.location.lastTimeFlowerEffect = System.currentTimeMillis();
+        int effectId = Util.isTrue(FLOWER_EFFECT_ROSE_RATIO, 100)
+                ? FLOWER_EFFECT_ID_ROSE : FLOWER_EFFECT_ID_BLUE;
+        int x = player.location.x - FLOWER_EFFECT_X_OFFSET;
+        int y = player.location.y - FLOWER_EFFECT_Y_OFFSET;
+        sendFlowerToAllInMap(player.zone, effectId, FLOWER_EFFECT_LAYER,
+                FLOWER_EFFECT_LOOP, x, y, FLOWER_EFFECT_DELAY);
+    }
+
+    public void sendFlowerToAllInMap(Zone zone, int id, int layer, int loop, int x, int y, int delay) {
+        Message msg = null;
+        try {
+            msg = new Message(113);
+            msg.writer().writeByte(loop);
+            msg.writer().writeByte(layer);
+            msg.writer().writeShort(id);   // 369/370 &gt; 255 nên cần short
+            msg.writer().writeShort(x);
+            msg.writer().writeShort(y);
+            msg.writer().writeShort(delay);
+            Service.gI().sendMessAllPlayerInMap(zone, msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (msg != null) {
+                msg.cleanup();
+            }
+        }
+    }</code></pre>
+
+  <h3>File 3 — <code>nro/models/services/PlayerService.java</code> (guard + hook tại playerMove)</h3>
+  <pre><code>    public void playerMove(Player player, int x, int y) {
+        if (player.zone == null) {
+            return;
+        }
+        boolean realMove = x != player.location.x || y != player.location.y;
+        boolean largeMove = Math.abs(x - player.location.x) + Math.abs(y - player.location.y) &gt; 300;
+        ... // logic đổi map, pet, isFly... giữ nguyên
+        MapService.gI().sendPlayerMove(player);
+        if (realMove &amp;&amp; !largeMove) {
+            EffectMapService.gI().sendFlowerEffectOnMove(player);
+        }
+        TaskService.gI().checkDoneTaskGoToMap(player, player.zone);
+        ...
+    }
+
+    // thêm import:
+    // import nro.models.services_func.EffectMapService;</code></pre>
+</section>
+
+<section id="config">
+  <h2>5. Cấu hình &amp; tài nguyên client</h2>
+  <table>
+    <tr><th>Hằng số</th><th>Ý nghĩa</th><th>Điều chỉnh</th></tr>
+    <tr><td><code>FLOWER_EFFECT_ENABLED</code></td><td>Bật/tắt toàn bộ hiệu ứng</td><td><code>false</code> để tắt</td></tr>
+    <tr><td><code>FLOWER_EFFECT_SPAWN_DELAY</code></td><td>chu kỳ tạo hoa (ms) — chống dày</td><td>tăng 700–1000 nếu muốn thưa hơn</td></tr>
+    <tr><td><code>FLOWER_EFFECT_ROSE_RATIO</code></td><td>% chọn hoa hồng 369 (còn lại là 370)</td><td>100 = chỉ hoa hồng</td></tr>
+    <tr><td><code>FLOWER_EFFECT_LAYER</code></td><td>Lớp vẽ trên client</td><td>sửa nếu hoa che mất nhân vật</td></tr>
+    <tr><td><code>FLOWER_EFFECT_X/Y_OFFSET</code></td><td>Căn tọa độ chân nhân vật</td><td>căn chỉnh nếu hoa lệch vị trí</td></tr>
+  </table>
+  <h3>Đặt tài nguyên vào client</h3>
+  <ul>
+    <li>Sao chép <code>ImgEffect_369.png</code>, <code>DataEffect_369</code>, <code>ImgEffect_370.png</code>, <code>DataEffect_370</code> vào thư mục tài nguyên tương ứng độ phân giải của client: <code>x1/</code>, <code>x2/</code>, <code>x3/</code>, <code>x4/</code> (giữ đúng cấu trúc nơi đã có <code>ImgEffect_…</code> và <code>DataEffect_…</code> hiện tại).</li>
+    <li>Chỉ cần ảnh + data cho đúng screen ratio (x1..x4) mà client đang hỗ trợ.</li>
+    <li>Server không cần tài nguyên: chỉ gửi Message 113.</li>
+  </ul>
+  <div class="note">⚠️ Lưu ý kiểm chứng: client chưa được cung cấp — field <b>id</b> của Message 113 phải được client đọc bằng <code>readShort()</code> (vì 369/370 vượt giới hạn byte). Nếu client đọc byte, đổi <code>writeShort(id)</code> → <code>writeByte(id)</code> tại <code>sendFlowerToAllInMap</code> khi đã dè dặt phần tài nguyên dưới 255.</div>
+</section>
+
+<section id="build">
+  <h2>6. Kiểm tra build (đã thực hiện thật)</h2>
+  <ul>
+    <li>JDK: <code>javac 17.0.20.1</code>, 560 file <code>.java</code>.</li>
+    <li>Baseline trước khi vá: <b>0 lỗi</b>.</li>
+    <li>Sau khi vá: <b>0 lỗi</b> — đã verify bằng <code>javap</code> các hằng <code>FLOWER_*</code> và hàm <code>sendFlowerEffectOnMove</code>, <code>sendFlowerToAllInMap</code> đều có mặt trong bytecode.</li>
+    <li>Thư viện biên dịch: gson, HikariCP, lombok, json-simple, commons-lang, mysql-connector, slf4j (Maven Central).</li>
+  </ul>
+</section>
+
+</main>
+<footer>PlayGround · NRO flower-under-feet effect · Server patch verified · Phục vụ như trang tổng quan dự án.</footer>
+</body>
+</html>
